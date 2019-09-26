@@ -1,0 +1,58 @@
+[
+  {
+    "ParameterKey": "TitleParameter",
+    "ParameterValue": "yodaMovementColletionTed"
+  },
+  {
+    "ParameterKey": "BasePathParameter",
+    "ParameterValue": "yodaMovementColletionTed"
+  },
+  {
+    "ParameterKey": "HandlerParameter",
+    "ParameterValue": "com.yoda.movement.colletion.ted.StreamLambdaHandler::handleRequest"
+  },
+  {
+    "ParameterKey": "Host",
+    "ParameterValue": "api.caradhras.io"
+  }, 
+  {
+    "ParameterKey": "BasePath",
+    "ParameterValue": "/yodaMovementColletionTed"
+  },
+  {
+    "ParameterKey": "FunctionName",
+    "ParameterValue": "yoda-movement-colletion-ted"
+  },
+  {
+    "ParameterKey": "Runtime",
+    "ParameterValue": "java8"
+  },
+  {
+    "ParameterKey": "Timeout",
+    "ParameterValue": "120"
+  },
+  {
+    "ParameterKey": "MemorySize",
+    "ParameterValue": "1024"
+  },
+  {
+    "ParameterKey": "PathPier",
+    "ParameterValue": "https://api.conductor.com.br/pier/v2/api"
+  },
+  {
+    "ParameterKey": "PathCaradhras",
+    "ParameterValue": "https://api.caradhras.io"  
+  },
+  {
+    "ParameterKey": "UrlDataBase",
+    "ParameterValue": "jdbc:postgresql://yodadb.cvm21ncprvfl.us-east-1.rds.amazonaws.com:5432/yoda"
+  },
+  {
+    "ParameterKey": "UserDataBase",
+    "ParameterValue": "ops_user"
+  },
+  {
+    "ParameterKey": "SecGroup",
+    "ParameterValue": "sg-0ab3355d9812e9c09"
+  }    
+]

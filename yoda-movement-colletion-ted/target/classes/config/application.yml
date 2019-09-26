@@ -1,0 +1,20 @@
+server:
+    port: 8080
+conciliador:           
+    datasource:
+        socketTimeout: 30000
+        loginTimeout: 30000
+        minimumIdle: 0
+        maximumPoolSize: 50
+        validationTimeout: 10000
+        idleTimeout: 30000
+        connectionTimeout: 30000
+        autoCommit: false
+        initializationFailFast: true        
+        sqlserver:
+            dataUrl: jdbc:postgresql://yodadb.hml.caradhras.io:5432/yoda            
+            dataSourceUser: ops_user
+            dataSourcePassword: yoda_2018
+            port: 5432            
+            connectionTestQuery: SELECT 1    
+    

@@ -1,0 +1,58 @@
+[
+  {
+    "ParameterKey": "TitleParameter",
+    "ParameterValue": "yodaMovementColletionTed"
+  },
+  {
+    "ParameterKey": "BasePathParameter",
+    "ParameterValue": "yodaMovementColletionTed"
+  },
+  {
+    "ParameterKey": "HandlerParameter",
+    "ParameterValue": "br.com.cdt.caradhras.api.movementColletionTed.StreamLambdaHandler::handleRequest"
+  },
+  {
+    "ParameterKey": "Host",
+    "ParameterValue": "api.caradhras.io"
+  }, 
+  {
+    "ParameterKey": "BasePath",
+    "ParameterValue": "/yodaMovementColletionTed"
+  },
+  {
+    "ParameterKey": "FunctionName",
+    "ParameterValue": "yoda-movement-colletion-ted"
+  },
+  {
+    "ParameterKey": "Runtime",
+    "ParameterValue": "java8"
+  },
+  {
+    "ParameterKey": "Timeout",
+    "ParameterValue": "120"
+  },
+  {
+    "ParameterKey": "MemorySize",
+    "ParameterValue": "1024"
+  },
+  {
+    "ParameterKey": "PathPier",
+    "ParameterValue": "http://10.19.253.71:8000/v2/api"
+  },
+  {
+    "ParameterKey": "PathCaradhras",
+    "ParameterValue": "https://api.hml.caradhras.io"  
+  },
+  {
+    "ParameterKey": "UrlDataBase",
+    "ParameterValue": "jdbc:postgresql://yodadb.local.hml.caradhras.io:5432/yoda"
+  },
+  {
+    "ParameterKey": "UserDataBase",
+    "ParameterValue": "ops_user"
+  },
+  {
+    "ParameterKey": "SecGroup",
+    "ParameterValue": "sg-07288a3dfa7f54d33"
+  }
+]

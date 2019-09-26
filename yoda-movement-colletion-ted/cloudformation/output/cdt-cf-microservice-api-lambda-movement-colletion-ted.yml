@@ -1,0 +1,443 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: MovementColletionTed Transfer API and Lambda Function Create
+
+Parameters: 
+  NewStageParameter: 
+    Type: String
+    Default: Dev
+    AllowedValues: 
+      - "Dev"
+    Description: Stage exigido pelo SAM.
+  
+  StageNameParameter:
+    Type: String
+    Default: Live
+    AllowedValues:
+      - "Live"
+
+  HandlerParameter:
+    Type: String
+    Description: Name de Handler this function
+  
+  TitleParameter:
+    Type: String
+    Description: Name the Title Parameter
+  
+  BasePathParameter:
+    Type: String
+    Description: Name of the Parameter Path
+
+  Host:
+    Type: String
+    Description: Name of the caradhras host
+
+  BasePath:
+    Type: String
+    Description: Name of the Base Path
+
+  FunctionName:
+    Type: String
+    Description: Name this function.
+
+  Runtime:
+    Type: String
+    Description: Version this java running in function
+
+  Timeout:
+    Type: String
+    Description: Time for timeout in seconds
+
+  MemorySize:
+    Type: String
+    Description: Size the memory for function
+
+  PathPier:
+    Type: String
+    Description: Name of the Pier Path
+
+  PathCaradhras:
+    Type: String
+    Description: Name of the caradhras Path
+
+  UrlDataBase:
+    Type: String
+    Description: Url of jdbc connection
+  
+  UserDataBase:
+    Type: String
+    Description: Database user name
+
+  YodaDbPasswordParameter:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Description: Database password
+    Default: YodaDbPassword
+  
+Resources:
+  movementColletionTedAPI: 
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref NewStageParameter
+      DefinitionBody:
+        swagger: "2.0"
+        info:
+          version: "2018-09-25T13:38:32Z"
+          title: !Ref TitleParameter
+        host: !Ref Host
+        basePath: !Ref BasePath
+        schemes:
+        - "https"
+        paths:
+          /colletion:
+            get:
+              produces:
+              - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                credentials: !Sub arn:aws:iam::${AWS::AccountId}:role/cdt_lambda_invoke_function_assume_apigw_role
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${movementColletionTed.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestParameters:
+                  integration.request.header.access_token: "context.authorizer.access_token"                 
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                contentHandling: "CONVERT_TO_TEXT"
+                type: "aws_proxy"
+              security:
+              - cdt-custom-authorizer: []               
+            options:
+              consumes:
+              - "application/json"
+              produces:     
+              - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin: 
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestTemplates:
+                  application/json: "{\"statusCode\": 200}"
+                passthroughBehavior: "when_no_match"
+                type: "mock"
+          /colletion/{id}:
+            get:
+              produces:
+              - "application/json"
+              parameters:
+              - name: "id"
+                in: "path"
+                required: true
+                type: "string"
+              responses:
+                "200":
+                  description: "200 response"
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                credentials: !Sub arn:aws:iam::${AWS::AccountId}:role/cdt_lambda_invoke_function_assume_apigw_role
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${movementColletionTed.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestParameters:
+                  integration.request.path.id: "method.request.path.id"
+                  integration.request.header.access_token: "context.authorizer.access_token"              
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                type: "aws_proxy"
+              security:
+              - cdt-custom-authorizer: []               
+            options:
+              consumes:
+              - "application/json"
+              produces:     
+              - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin: 
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestTemplates:
+                  application/json: "{\"statusCode\": 200}"
+                passthroughBehavior: "when_no_match"
+                type: "mock"
+          /ted:
+            get:
+              produces:
+              - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                credentials: !Sub arn:aws:iam::${AWS::AccountId}:role/cdt_lambda_invoke_function_assume_apigw_role
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${movementColletionTed.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestParameters:
+                  integration.request.header.access_token: "context.authorizer.access_token"                   
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                contentHandling: "CONVERT_TO_TEXT"
+                type: "aws_proxy"
+              security:
+              - cdt-custom-authorizer: []               
+            options:
+              consumes:
+              - "application/json"
+              produces:     
+              - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin: 
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestTemplates:
+                  application/json: "{\"statusCode\": 200}"
+                passthroughBehavior: "when_no_match"
+                type: "mock"
+          /ted/{id}:
+            get:
+              produces:
+              - "application/json"
+              parameters:
+              - name: "id"
+                in: "path"
+                required: true
+                type: "string"
+              responses:
+                "200":
+                  description: "200 response"
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                credentials: !Sub arn:aws:iam::${AWS::AccountId}:role/cdt_lambda_invoke_function_assume_apigw_role
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${movementColletionTed.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestParameters:
+                  integration.request.path.id: "method.request.path.id"
+                  integration.request.header.access_token: "context.authorizer.access_token"                    
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                type: "aws_proxy"
+              security:
+              - cdt-custom-authorizer: []               
+            options:
+              consumes:
+              - "application/json"
+              produces:     
+              - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin: 
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestTemplates:
+                  application/json: "{\"statusCode\": 200}"
+                passthroughBehavior: "when_no_match"
+                type: "mock"
+        securityDefinitions:
+          cdt-custom-authorizer:
+            type: "apiKey"
+            name: "Authorization"
+            in: "header"
+            x-amazon-apigateway-authtype: "custom"
+            x-amazon-apigateway-authorizer:
+              authorizerCredentials: !Sub arn:aws:iam::${AWS::AccountId}:role/cdt_lambda_invoke_function_assume_apigw_role
+              authorizerUri: !Sub arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:custom-authorizer/invocations
+              type: "token"
+        x-amazon-apigateway-gateway-responses:
+          DEFAULT_5XX:
+            responseTemplates:
+              application/json: "{\"messageFromCustomAuthorizer\":$context.authorizer.message,\n\
+                \"messageFromAPIGateway\":$context.error.messageString}"
+          DEFAULT_4XX:
+            responseTemplates:
+              application/json: "{\"messageFromCustomAuthorizer\":$context.authorizer.message,\n\
+                \"messageFromAPIGateway\":$context.error.messageString}"                      
+        definitions:
+          Empty:
+            type: "object"
+            title: "Empty Schema"
+
+  Deployment: 
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: movementColletionTedAPI
+    Properties: 
+      RestApiId: !Ref movementColletionTedAPI
+
+  Stage:
+    Type: AWS::ApiGateway::Stage
+    DependsOn: Deployment
+    Properties:
+      StageName: !Ref StageNameParameter
+      RestApiId: !Ref movementColletionTedAPI
+      DeploymentId: !Ref Deployment
+
+  BaseMapping:
+     Type: AWS::ApiGateway::BasePathMapping
+     DependsOn: Stage
+     Properties:
+       BasePath: !Ref BasePathParameter
+       DomainName: !ImportValue APICustomDomainName
+       RestApiId: !Ref movementColletionTedAPI
+       Stage: !Ref Stage
+
+  movementColletionTed:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: !Ref HandlerParameter
+      FunctionName: movementColletionTed
+      Runtime: !Ref Runtime
+      Timeout: !Ref Timeout
+      MemorySize: !Ref MemorySize
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LambdaExecutionRole
+      Policies: AWSLambdaBasicExecutionRole
+      CodeUri: ../../target/movement-colletion-ted.jar
+      Environment:
+        Variables:
+          PATH_PIER: !Ref PathPier
+          PATH_CARADHRAS: !Ref PathCaradhras   
+          URL_DATABASE: !Ref UrlDataBase
+          USR_DATABASE: !Ref UserDataBase     
+          PWD_DATABASE: !Ref YodaDbPasswordParameter
+          REGION: !Sub ${AWS::Region}
+          
+      Events:
+        movementColletionGetAll:
+          Type: Api
+          Properties:
+            Path: /movementColletionTed/colletion
+            Method: get
+            RestApiId: !Ref movementColletionTedAPI
+        movementColletionGet:
+          Type: Api
+          Properties:
+            Path:  /movementColletionTed/colletion/{id}
+            Method: get
+            RestApiId: !Ref movementColletionTedAPI
+        movementTedGetAll:
+          Type: Api
+          Properties:
+            Path:  /movementColletionTed/ted
+            Method: get
+            RestApiId: !Ref movementColletionTedAPI
+        movementTedGet:
+          Type: Api
+          Properties:
+            Path:  /movementColletionTed/ted/{id}
+            Method: get
+            RestApiId: !Ref movementColletionTedAPI       
+
+  ScheduledRule: 
+    Type: AWS::Events::Rule
+    DependsOn: movementColletionTed
+    Properties:
+      Description: "ScheduledRule"
+      ScheduleExpression: "rate(2 minutes)"
+      State: "ENABLED"
+      Targets: 
+        - 
+          Arn: !Sub ${movementColletionTed.Arn}
+          Id: movementColletionTed
+  PermissionForEventsToInvokeLambda: 
+    Type: AWS::Lambda::Permission
+    Properties: 
+      FunctionName: 
+        Ref: movementColletionTed
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn: 
+        Fn::GetAtt: 
+          - "ScheduledRule"
+          - "Arn"
